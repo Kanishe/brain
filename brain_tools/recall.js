@@ -10,10 +10,11 @@ const MANIFEST_NAME = ".brain.yml";
 const INDEX_NAME = "MOC.md";
 
 function tokenize(text) {
+  // split on any run of non-letter/non-number characters (unicode-aware),
+  // so punctuation like "auth." or "service," does not block a match
   return text
     .toLowerCase()
-    .replace(/,/g, " ")
-    .split(/\s+/)
+    .split(/[^\p{L}\p{N}]+/u)
     .filter(Boolean);
 }
 

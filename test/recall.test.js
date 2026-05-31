@@ -47,6 +47,14 @@ test("recall respects maxResults", () => {
   assert.equal(results.length, 3);
 });
 
+test("recall tolerates punctuation in the query", () => {
+  const root = tmp();
+  const work = area(root, "work", "personal");
+  note(work, "2026-05-31_auth.md", "Auth service", ["авторизация", "jwt"]);
+  const results = search(root, "нужен auth-сервис, как jwt?");
+  assert.equal(results[0].name, "2026-05-31_auth");
+});
+
 test("recall privacy filter excludes higher sensitivity", () => {
   const root = tmp();
   const work = area(root, "work", "confidential");
