@@ -6,7 +6,7 @@
 
   <groupId>com.portablebrain</groupId>
   <artifactId>brain-tools</artifactId>
-  <version>0.2.1</version>
+  <version>0.2.2</version>
   <packaging>jar</packaging>
   <description>Deterministic helper tools for the portable-brain agent</description>
 

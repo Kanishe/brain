@@ -33,6 +33,12 @@ COPY templates/ /opt/brain/templates/
 COPY CLAUDE.md /root/.claude/CLAUDE.md
 COPY skills/ /root/.claude/skills/
 
+# The image has no SSH client/keys, but the github plugin source resolves to
+# git@github.com and fails with "ssh: not found". Force HTTPS for GitHub clones
+# (public repo) so both the build-time install and runtime auto-update work.
+RUN git config --global url."https://github.com/".insteadOf "git@github.com:" \
+    && git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
 # enable + preinstall the superpowers plugin so it is ready at container start.
 # settings.json declares it (same mechanism as a host install); the build-time
 # install pre-populates the plugin cache so it works offline / instantly.
