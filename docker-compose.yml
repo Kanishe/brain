@@ -1,0 +1,18 @@
+services:
+  brain:
+    build: .
+    image: portable-brain
+    # interactive terminal for the Claude Code TUI (equivalent to docker run -it)
+    stdin_open: true
+    tty: true
+    volumes:
+      # your knowledge lives on the host and is mounted in
+      - ${HOME}/brain:/brain
+      # Persist the Max/Pro login across runs. Create the file first so Docker
+      # mounts a file (not a directory): `touch ~/brain-creds.json`, then uncomment:
+      # - ${HOME}/brain-creds.json:/root/.claude/.credentials.json
+    # environment:
+    #   # override the default bootstrap areas if needed
+    #   BRAIN_AREAS: "work:confidential live:personal education:personal"
+    #   # headless auth instead of interactive /login (subscription token, not an API key)
+    #   CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN}

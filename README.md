@@ -13,6 +13,16 @@ Isolate a single domain (e.g. on a work machine):
 
     docker run -it -v ~/brain-work:/brain/work portable-brain
 
+## Docker Compose
+
+A `docker-compose.yml` is included (mounts `~/brain`, keeps an interactive TTY):
+
+    docker compose build           # build the image
+    docker compose run --rm brain  # start the agent (interactive Claude TUI)
+
+Use `run --rm` (not `up`) so the Claude Code terminal attaches to your shell.
+Login/areas/persistence options are documented inline in the compose file.
+
 ## Auth (Claude Max/Pro subscription)
 
 The agent's rules (`CLAUDE.md`) and skills are baked into the image under
