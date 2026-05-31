@@ -2,6 +2,8 @@ services:
   brain:
     build: .
     image: portable-brain
+    container_name: brain
+    restart: "no"
     # interactive terminal for the Claude Code TUI (equivalent to docker run -it)
     stdin_open: true
     tty: true
