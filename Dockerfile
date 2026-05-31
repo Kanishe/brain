@@ -19,6 +19,10 @@ COPY CLAUDE.md ./CLAUDE.md
 # expose the `brain` CLI globally
 RUN npm install -g .
 
+# startup bootstrap: create brain areas after /brain is mounted, then run claude
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 VOLUME ["/brain"]
 WORKDIR /brain
-ENTRYPOINT ["claude"]
+ENTRYPOINT ["docker-entrypoint.sh"]
