@@ -13,7 +13,7 @@ When the user says «запиши»/«сохрани»:
    `cat /brain/<area>/.brain.yml`
 3. PRIVACY BOUNDARY: if the material draws on a more protected area than the
    target, do not merge it. Warn the user instead.
-4. Write the note following `conventions/note-format.md`:
+4. Write the note following `/opt/brain/conventions/note-format.md`:
    filename `YYYY-MM-DD_topic.md`, full frontmatter including rich `keywords`
    (synonyms + natural phrases the user would later search by).
 5. Rebuild the index: `brain index /brain/<area>`

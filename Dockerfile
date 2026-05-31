@@ -12,9 +12,12 @@ RUN npm install --omit=dev
 
 COPY brain_tools/ ./brain_tools/
 COPY conventions/ ./conventions/
-COPY skills/ ./skills/
 COPY templates/ ./templates/
-COPY CLAUDE.md ./CLAUDE.md
+
+# place agent instructions + skills where Claude Code discovers them
+# (global memory ~/.claude/CLAUDE.md and user skills ~/.claude/skills/)
+COPY CLAUDE.md /root/.claude/CLAUDE.md
+COPY skills/ /root/.claude/skills/
 
 # expose the `brain` CLI globally
 RUN npm install -g .

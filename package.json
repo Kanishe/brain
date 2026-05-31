@@ -1,6 +1,6 @@
 {
   "name": "brain-tools",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Deterministic helper tools for the portable-brain agent",
   "type": "module",
   "bin": {

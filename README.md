@@ -11,6 +11,22 @@ Isolate a single domain (e.g. on a work machine):
 
     docker run -it -v ~/brain-work:/brain/work portable-brain
 
+## Auth (Claude Max/Pro subscription)
+
+The agent's rules (`CLAUDE.md`) and skills are baked into the image under
+`/root/.claude/`, where Claude Code discovers them. **Do not bind-mount over
+`/root/.claude`** for auth — it would shadow those baked rules and skills.
+
+Recommended: authenticate with a subscription token (generate once on a machine
+with a browser via `claude setup-token`) and pass it in:
+
+    docker run -it -v ~/brain:/brain \
+      -e CLAUDE_CODE_OAUTH_TOKEN=<token> portable-brain
+
+Do **not** set `ANTHROPIC_API_KEY` if you want subscription billing. To persist
+an interactive `/login` instead, mount only the credentials file, not the whole
+dir: `-v ~/brain-claude/.credentials.json:/root/.claude/.credentials.json`.
+
 ## Layout
 
     /brain/profile   who you are / how to work with you (live facts)

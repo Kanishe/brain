@@ -9,7 +9,7 @@ on the host mount `/brain` and is synced by the user, not by you.
 - If `/brain` is empty or an area lacks a manifest, say so and offer `brain-init`.
 
 ## Core rules
-- Conventions live in `conventions/` — manifest, note-format, index. Follow them.
+- Conventions live in `/opt/brain/conventions/` — manifest, note-format, index. Follow them.
 - Filing a note → use the `запиши` skill.
 - Recalling prior work → use the `вспомни` skill (retrieve candidates first,
   read in full only after the user picks).
