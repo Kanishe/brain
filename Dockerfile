@@ -33,6 +33,14 @@ COPY templates/ /opt/brain/templates/
 COPY CLAUDE.md /root/.claude/CLAUDE.md
 COPY skills/ /root/.claude/skills/
 
+# enable + preinstall the superpowers plugin so it is ready at container start.
+# settings.json declares it (same mechanism as a host install); the build-time
+# install pre-populates the plugin cache so it works offline / instantly.
+COPY claude/settings.json /root/.claude/settings.json
+RUN claude plugin marketplace add obra/superpowers-marketplace \
+    && claude plugin install superpowers@superpowers-marketplace \
+    || true
+
 # startup bootstrap: create brain areas after /brain is mounted, then run claude
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

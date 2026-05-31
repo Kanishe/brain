@@ -73,6 +73,13 @@ pairs) — useful for an isolated host:
     docker run -it -v ~/brain-work:/brain/work \
       -e BRAIN_AREAS="work:confidential" portable-brain
 
+## Bundled plugin
+
+The [superpowers](https://github.com/obra/superpowers-marketplace) plugin is
+enabled and pre-installed in the image (`claude/settings.json` +
+`claude plugin install` at build time), so it is available the moment the
+container starts — no manual `/plugin` step.
+
 ## Helper tools (the `brain` CLI)
 
     brain init <path> --area NAME --sensitivity LEVEL \

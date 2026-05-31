@@ -122,6 +122,12 @@ recall (`--into <уровень>`) и в скилл `запиши`.
 `work` и `live` можно держать в разных репозиториях/облаках — образ поддерживает
 раздельные маунты.
 
+## Вшитый плагин
+
+Плагин [superpowers](https://github.com/obra/superpowers-marketplace) включён и
+предустановлен в образе (`claude/settings.json` + `claude plugin install` на этапе
+сборки) — он доступен сразу при старте контейнера, без ручного `/plugin`.
+
 ## Инструменты `brain` (CLI, при желании напрямую)
 
     brain init <путь> --area ИМЯ --sensitivity УРОВЕНЬ \
