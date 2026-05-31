@@ -73,6 +73,12 @@ pairs) — useful for an isolated host:
 
 ## Development
 
-    npm install
-    npm test        # node --test
-    bash test/e2e.sh
+The `brain` CLI is a Java 21 app (built to a fat jar); the agent runtime
+(Claude Code) is Node, so the image is polyglot (Node + a JRE).
+
+    mvn test                       # JUnit (JDK 21)
+    mvn -q -DskipTests package     # build target/brain-tools.jar
+    bash test/e2e.sh               # builds the jar if needed, drives the brain CLI
+
+The `brain` wrapper (`bin/brain`) sets a UTF-8 locale before launching the jar
+so non-ASCII args/output (e.g. Cyrillic) round-trip correctly.

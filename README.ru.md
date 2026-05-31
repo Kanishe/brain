@@ -122,6 +122,12 @@ recall (`--into <уровень>`) и в скилл `запиши`.
 
 ## Разработка
 
-    npm install
-    npm test        # node --test (29 тестов)
-    bash test/e2e.sh
+CLI `brain` — приложение на Java 21 (собирается в fat-jar); рантайм агента
+(Claude Code) — Node, поэтому образ полиглотный (Node + JRE).
+
+    mvn test                       # JUnit (JDK 21)
+    mvn -q -DskipTests package     # сборка target/brain-tools.jar
+    bash test/e2e.sh               # соберёт jar при необходимости и прогонит CLI
+
+Обёртка `bin/brain` выставляет UTF-8-локаль перед запуском jar, чтобы кириллица
+в аргументах/выводе не билась.

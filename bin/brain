@@ -1,0 +1,6 @@
+#!/bin/sh
+# Wrapper for the brain CLI (Java fat jar).
+# A UTF-8 locale is required so non-ASCII args/output (e.g. Cyrillic) round-trip;
+# the JVM decodes argv and stdout using the process locale, not file.encoding.
+export LC_ALL="${LC_ALL:-C.UTF-8}"
+exec java -jar "${BRAIN_JAR:-/opt/brain/brain-tools.jar}" "$@"
