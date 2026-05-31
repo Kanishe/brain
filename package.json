@@ -1,0 +1,15 @@
+{
+  "name": "brain-tools",
+  "version": "0.1.0",
+  "description": "Deterministic helper tools for the portable-brain agent",
+  "type": "module",
+  "bin": {
+    "brain": "brain_tools/cli.js"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}
