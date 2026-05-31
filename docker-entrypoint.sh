@@ -18,4 +18,11 @@ for pair in $BRAIN_AREAS; do
   fi
 done
 
+# report superpowers plugin status (non-fatal)
+if claude plugin list 2>/dev/null | grep -q "superpowers@superpowers-marketplace"; then
+  echo "plugin: superpowers enabled"
+else
+  echo "plugin: superpowers not detected — it will install on first use"
+fi
+
 exec claude "$@"
