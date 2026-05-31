@@ -1,8 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync, existsSync } from "node:fs";
+import { mkdtempSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import yaml from "js-yaml";
 import { main } from "../brain_tools/cli.js";
 
 function tmp() {
@@ -24,6 +25,26 @@ test("cli init creates manifest", () => {
   );
   assert.equal(code, 0);
   assert.ok(existsSync(join(area, ".brain.yml")));
+});
+
+test("cli init accepts description, layout and keywords", () => {
+  const area = join(tmp(), "education");
+  const code = main(
+    [
+      "init", area,
+      "--area", "education",
+      "--sensitivity", "personal",
+      "--description", "Обучение",
+      "--layout", "<it|english>/<topic>",
+      "--keywords", "обучение, it, english",
+    ],
+    { log: () => {} }
+  );
+  assert.equal(code, 0);
+  const m = yaml.load(readFileSync(join(area, ".brain.yml"), "utf-8"));
+  assert.equal(m.description, "Обучение");
+  assert.equal(m.layout, "<it|english>/<topic>");
+  assert.deepEqual(m.keywords, ["обучение", "it", "english"]);
 });
 
 test("cli recall outputs JSON", () => {

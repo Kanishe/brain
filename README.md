@@ -65,7 +65,8 @@ pairs) — useful for an isolated host:
 
 ## Helper tools (the `brain` CLI)
 
-    brain init <path> --area NAME --sensitivity LEVEL
+    brain init <path> --area NAME --sensitivity LEVEL \
+      [--description TEXT] [--layout PATTERN] [--keywords "a, b, c"]
     brain index <area_dir>
     brain recall <brain_root> "<phrase>" [--into LEVEL] [--max-results N]
     brain validate <file>     # a .brain.yml manifest or a note .md

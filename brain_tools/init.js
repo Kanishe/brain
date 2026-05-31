@@ -13,7 +13,16 @@ import { INDEX_NAME, write as writeIndex } from "./index.js";
 const MANIFEST_NAME = ".brain.yml";
 
 // Create areaDir with a valid .brain.yml manifest and a fresh MOC.md.
-export function initArea(areaDir, { areaName, sensitivity = DEFAULT_SENSITIVITY } = {}) {
+export function initArea(
+  areaDir,
+  {
+    areaName,
+    sensitivity = DEFAULT_SENSITIVITY,
+    description = "",
+    layout = "<topic>",
+    keywords = [],
+  } = {}
+) {
   if (!(sensitivity in SENSITIVITY_LEVELS)) {
     throw new Error(`invalid sensitivity: ${sensitivity}`);
   }
@@ -21,11 +30,11 @@ export function initArea(areaDir, { areaName, sensitivity = DEFAULT_SENSITIVITY 
   const manifest = {
     schema_version: CURRENT_SCHEMA_VERSION,
     area: areaName,
-    description: "",
-    layout: "<topic>",
+    description,
+    layout,
     index: INDEX_NAME,
     sensitivity,
-    keywords: [],
+    keywords,
   };
   writeFileSync(
     join(areaDir, MANIFEST_NAME),

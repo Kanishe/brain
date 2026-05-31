@@ -29,6 +29,11 @@ function cmdInit(rest, log) {
   initArea(positional[0], {
     areaName: flags.area,
     sensitivity: flags.sensitivity ?? DEFAULT_SENSITIVITY,
+    description: flags.description ?? "",
+    layout: flags.layout ?? "<topic>",
+    keywords: flags.keywords
+      ? flags.keywords.split(",").map((k) => k.trim()).filter(Boolean)
+      : [],
   });
   log(`initialized area at ${positional[0]}`);
   return 0;

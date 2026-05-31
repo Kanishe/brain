@@ -16,6 +16,11 @@ Validate a manifest:
 
     brain validate /brain/work/.brain.yml
 
-Create a new area from the template:
+Create a new area (optionally seed description/layout/keywords in one command):
 
     brain init /brain/work --area work --sensitivity confidential
+    brain init /brain/education --area education --sensitivity personal \
+      --description "Обучение" --layout "<it|english>/<topic>" \
+      --keywords "обучение, it, english"
+
+`--keywords` is a comma-separated list.

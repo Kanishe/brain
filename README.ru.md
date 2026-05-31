@@ -114,7 +114,8 @@ recall (`--into <уровень>`) и в скилл `запиши`.
 
 ## Инструменты `brain` (CLI, при желании напрямую)
 
-    brain init <путь> --area ИМЯ --sensitivity УРОВЕНЬ   # создать область
+    brain init <путь> --area ИМЯ --sensitivity УРОВЕНЬ \
+      [--description ТЕКСТ] [--layout ШАБЛОН] [--keywords "a, b, c"]   # создать область
     brain index <папка-области>                          # пересобрать MOC.md
     brain recall <корень> "<фраза>" [--into УРОВЕНЬ]      # поиск
     brain validate <файл>                                # проверить манифест/заметку

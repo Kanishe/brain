@@ -21,6 +21,21 @@ test("init creates manifest and index", () => {
   assert.ok(existsSync(join(area, "MOC.md")));
 });
 
+test("init stores description, layout and keywords", () => {
+  const area = join(tmp(), "education");
+  initArea(area, {
+    areaName: "education",
+    sensitivity: "personal",
+    description: "Обучение",
+    layout: "<it|english>/<topic>",
+    keywords: ["обучение", "it"],
+  });
+  const m = yaml.load(readFileSync(join(area, ".brain.yml"), "utf-8"));
+  assert.equal(m.description, "Обучение");
+  assert.equal(m.layout, "<it|english>/<topic>");
+  assert.deepEqual(m.keywords, ["обучение", "it"]);
+});
+
 test("init rejects invalid sensitivity", () => {
   const area = join(tmp(), "work");
   assert.throws(
