@@ -3,6 +3,8 @@
 A portable Claude Code container that carries rules, not data. Your knowledge
 lives on the host mount `/brain` and you sync it yourself (git/cloud).
 
+> 🇷🇺 Описание на русском — [README.ru.md](README.ru.md)
+
 ## Run
 
     docker run -it -v ~/brain:/brain portable-brain
@@ -15,17 +17,23 @@ Isolate a single domain (e.g. on a work machine):
 
 The agent's rules (`CLAUDE.md`) and skills are baked into the image under
 `/root/.claude/`, where Claude Code discovers them. **Do not bind-mount over
-`/root/.claude`** for auth — it would shadow those baked rules and skills.
+`/root/.claude`** for auth — it would shadow those baked rules and skills. Also
+do **not** set `ANTHROPIC_API_KEY` if you want subscription billing.
 
-Recommended: authenticate with a subscription token (generate once on a machine
-with a browser via `claude setup-token`) and pass it in:
+Primary: interactive login with your Max/Pro subscription. Just run the
+container and inside Claude type `/login` → *Log in with Claude account* →
+approve in the browser. No token needed.
 
+To keep the login across runs, mount only the credentials file (not the whole
+dir, which would shadow the baked rules):
+
+    touch ~/brain-creds.json
     docker run -it -v ~/brain:/brain \
-      -e CLAUDE_CODE_OAUTH_TOKEN=<token> portable-brain
+      -v ~/brain-creds.json:/root/.claude/.credentials.json portable-brain
 
-Do **not** set `ANTHROPIC_API_KEY` if you want subscription billing. To persist
-an interactive `/login` instead, mount only the credentials file, not the whole
-dir: `-v ~/brain-claude/.credentials.json:/root/.claude/.credentials.json`.
+Headless option (servers without a browser): generate a subscription token once
+with `claude setup-token` (it bills to your subscription, it is **not** an API
+key) and pass it as `-e CLAUDE_CODE_OAUTH_TOKEN=<token>`.
 
 ## Layout
 
