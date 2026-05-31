@@ -37,11 +37,14 @@ key) and pass it as `-e CLAUDE_CODE_OAUTH_TOKEN=<token>`.
 
 ## Layout
 
-    /brain/profile   who you are / how to work with you (live facts)
-    /brain/work      work, sensitivity: confidential
-    /brain/live      personal
+    /brain/profile     who you are / how to work with you (live facts)
+    /brain/work        work, sensitivity: confidential
+    /brain/live        personal
+    /brain/education   learning; sub-folders: it (tech), english (language)
 
 Each area has a `.brain.yml` manifest and a self-healing `MOC.md` index.
+Learning/study topics are routed to `education/it` or `education/english`
+(see the routing rule in `CLAUDE.md`).
 
 ## Startup bootstrap
 
@@ -52,7 +55,8 @@ not just empty folders. It is idempotent: existing areas are left untouched.
 > A Dockerfile `RUN mkdir` would not work here — the `/brain` bind mount shadows
 > anything the image created at build time, so areas must be created at runtime.
 
-Default areas: `profile:personal`, `work:confidential`, `live:personal`.
+Default areas: `profile:personal`, `work:confidential`, `live:personal`,
+`education:personal`.
 Override with the `BRAIN_AREAS` env var (space-separated `name:sensitivity`
 pairs) — useful for an isolated host:
 

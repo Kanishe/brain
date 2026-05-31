@@ -6,7 +6,7 @@ set -euo pipefail
 
 # Areas to ensure on startup, as space-separated "name:sensitivity" pairs.
 # Override for an isolated host, e.g. -e BRAIN_AREAS="work:confidential"
-BRAIN_AREAS="${BRAIN_AREAS:-profile:personal work:confidential live:personal}"
+BRAIN_AREAS="${BRAIN_AREAS:-profile:personal work:confidential live:personal education:personal}"
 
 for pair in $BRAIN_AREAS; do
   name="${pair%%:*}"

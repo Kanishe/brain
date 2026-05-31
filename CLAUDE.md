@@ -15,6 +15,11 @@ on the host mount `/brain` and is synced by the user, not by you.
   read in full only after the user picks).
 - New/empty area → use the `brain-init` skill.
 
+## Routing rules
+- Learning / study topics (обучение, учёба) → `/brain/education`, choosing the
+  sub-folder: `it` for technology/development learning, `english` for the English
+  language. Create the sub-folder on first use if missing.
+
 ## Privacy boundary
 Never copy content from a more protected area into a less protected one
 (`confidential` > `personal` > `public`). When in doubt, ask.
