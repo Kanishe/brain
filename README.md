@@ -19,6 +19,22 @@ Isolate a single domain (e.g. on a work machine):
 
 Each area has a `.brain.yml` manifest and a self-healing `MOC.md` index.
 
+## Startup bootstrap
+
+On container start (after `/brain` is mounted) the entrypoint ensures the brain
+areas exist, creating any that are missing via `brain init` — manifest + index,
+not just empty folders. It is idempotent: existing areas are left untouched.
+
+> A Dockerfile `RUN mkdir` would not work here — the `/brain` bind mount shadows
+> anything the image created at build time, so areas must be created at runtime.
+
+Default areas: `profile:personal`, `work:confidential`, `live:personal`.
+Override with the `BRAIN_AREAS` env var (space-separated `name:sensitivity`
+pairs) — useful for an isolated host:
+
+    docker run -it -v ~/brain-work:/brain/work \
+      -e BRAIN_AREAS="work:confidential" portable-brain
+
 ## Helper tools (the `brain` CLI)
 
     brain init <path> --area NAME --sensitivity LEVEL
