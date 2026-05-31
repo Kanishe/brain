@@ -23,8 +23,8 @@ Each area has a `.brain.yml` manifest and a self-healing `MOC.md` index.
 
     brain init <path> --area NAME --sensitivity LEVEL
     brain index <area_dir>
-    brain recall <brain_root> "<phrase>" [--into LEVEL]
-    brain validate <path>
+    brain recall <brain_root> "<phrase>" [--into LEVEL] [--max-results N]
+    brain validate <file>     # a .brain.yml manifest or a note .md
 
 ## Development
 

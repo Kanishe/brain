@@ -13,4 +13,4 @@ Frontmatter (see `templates/note.md`):
 
 After writing or editing a note, rebuild the area index:
 
-    brain index /brain/work
+    brain index /brain/<area>
