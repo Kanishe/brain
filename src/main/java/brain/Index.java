@@ -21,8 +21,9 @@ public final class Index {
   /** Returns MOC.md content rebuilt from the notes in areaDir. */
   public static String rebuild(Path areaDir) throws IOException {
     List<Path> files;
-    try (Stream<Path> stream = Files.list(areaDir)) {
+    try (Stream<Path> stream = Files.walk(areaDir)) {
       files = stream
+          .filter(Files::isRegularFile)
           .filter(p -> p.getFileName().toString().endsWith(".md")
               && !p.getFileName().toString().equals(INDEX_NAME))
           .sorted(Comparator.comparing(p -> p.getFileName().toString()))

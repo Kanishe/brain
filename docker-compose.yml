@@ -11,6 +11,7 @@ services:
       # your knowledge lives on the host and is mounted in
       - ${HOME}/brain:/brain
       - ${HOME}/IdeaProjects:/work/
+      - ${HOME}/PycharmProjects/:/work/kandi
       # Persist the Max/Pro login across runs. Create the file first so Docker
       # mounts a file (not a directory): `touch ~/brain-creds.json`, then uncomment:
       # - ${HOME}/brain-creds.json:/root/.claude/.credentials.json

@@ -39,4 +39,14 @@ class IndexTest {
     Path target = Index.write(dir);
     assertEquals("MOC.md", target.getFileName().toString());
   }
+
+  @Test
+  void rebuildFindsNotesInNestedTopicFolders(@TempDir Path dir) throws Exception {
+    Path nested = dir.resolve("it/language/python/environment");
+    Files.createDirectories(nested);
+    note(nested, "2026-08-17_env-setup.md", "2026-08-17", "Env setup note");
+    String content = Index.rebuild(dir);
+    assertTrue(content.contains("[[2026-08-17_env-setup]]"));
+    assertTrue(content.contains("Env setup note"));
+  }
 }
