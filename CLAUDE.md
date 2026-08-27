@@ -14,6 +14,8 @@ on the host mount `/brain` and is synced by the user, not by you.
 - Recalling prior work → use the `вспомни` skill (retrieve candidates first,
   read in full only after the user picks).
 - New/empty area → use the `brain-init` skill.
+- Practice plan for a named topic → use the `потренируй` skill (plan only,
+  never the full solution).
 
 ## Routing rules
 - Learning / study topics (обучение, учёба) → `/brain/education`, choosing the
