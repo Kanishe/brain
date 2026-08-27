@@ -51,8 +51,19 @@ When the user says «потренируй» and names one or more topics (e.g.
    `it/programming_languages/python/...`), full frontmatter per
    `conventions/note-format.md`, filename
    `YYYY-MM-DD_<topic>-practice-plan.md`. Put the ordered steps under
-   `## 📌 Что запомнить`.
+   `## 📌 Что запомнить`. Right after the TL;DR, add a placeholder section
+   the user fills in later so the outcome is recallable:
+   ```
+   ## 🗂️ Репозиторий и результат
+
+   - **Репозиторий:** _(пока пусто — заполнится, когда появится код)_
+   - **Статус:** план
+   - **Итоги:** _(пусто)_
+   ```
 7. Rebuild the index: `brain index /brain/education/it/<sub-folder>`.
-8. When the user later comes back with their own code for one of these
-   steps, review it against that step's "зачем" — point out gaps, don't
-   rewrite it for them.
+8. When the user later comes back with their own code, a repo link, or
+   progress for one of these steps: review the code against that step's
+   "зачем" (point out gaps, don't rewrite it for them), AND update this same
+   note's `## 🗂️ Репозиторий и результат` section in place — fill in the
+   repo link, set status to `в процессе`/`завершено`, and add a one-line
+   итог per finished step. Rebuild the index afterward.
