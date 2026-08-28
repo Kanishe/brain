@@ -5,4 +5,5 @@
 # `npx skills add <entry>`. Lines starting with # and blank lines are ignored.
 #
 # Example:
-# vercel-labs/some-skill
+
+https://github.com/anthropics/skills/tree/main/skills/skill-creator

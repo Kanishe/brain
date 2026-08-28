@@ -42,7 +42,7 @@ COPY npx-skills.txt /tmp/npx-skills.txt
 RUN set -e; \
     while IFS= read -r skill; do \
       case "$skill" in ''|'#'*) continue ;; esac; \
-      npx --yes skills@latest add "$skill" -a claude-code -g; \
+      npx --yes skills@latest add "$skill" -a claude-code -g -y; \
     done < /tmp/npx-skills.txt; \
     rm /tmp/npx-skills.txt
 
