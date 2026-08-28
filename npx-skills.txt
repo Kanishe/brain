@@ -1,0 +1,8 @@
+# Third-party Claude Code skills installed at image build time via the
+# `skills` CLI (https://github.com/vercel-labs/skills, run as `npx skills`).
+#
+# One entry per line: owner/repo (or a full URL), same as you'd pass to
+# `npx skills add <entry>`. Lines starting with # and blank lines are ignored.
+#
+# Example:
+# vercel-labs/some-skill
