@@ -33,6 +33,19 @@ COPY templates/ /opt/brain/templates/
 COPY CLAUDE.md /root/.claude/CLAUDE.md
 COPY skills/ /root/.claude/skills/
 
+# third-party skills via the `skills` CLI (npx skills, vercel-labs/skills):
+# one owner/repo per line in npx-skills.txt (comments/blank lines ignored).
+# `-g` installs onto the same ~/.claude/skills discovery path as our own
+# skills above; @latest avoids older CLI versions that skip the ~/.claude
+# symlink. Empty file today = mechanism ready, nothing installed yet.
+COPY npx-skills.txt /tmp/npx-skills.txt
+RUN set -e; \
+    while IFS= read -r skill; do \
+      case "$skill" in ''|'#'*) continue ;; esac; \
+      npx --yes skills@latest add "$skill" -a claude-code -g; \
+    done < /tmp/npx-skills.txt; \
+    rm /tmp/npx-skills.txt
+
 # The image has no SSH client/keys, but the github plugin source resolves to
 # git@github.com and fails with "ssh: not found". Force HTTPS for GitHub clones
 # (public repo) so both the build-time install and runtime auto-update work.
