@@ -64,6 +64,19 @@ class CliTest {
   }
 
   @Test
+  void cliIndexRefusesDirectoryWithoutManifest(@TempDir Path root) throws Exception {
+    Path notAnArea = root.resolve("brain");
+    Files.createDirectories(notAnArea.resolve("work"));
+    Files.writeString(notAnArea.resolve("work/2026-05-31_secret.md"),
+        "---\nschema_version: 1\ndate: 2026-05-31\nsummary: Secret\n---\nbody\n");
+    ByteArrayOutputStream sink = new ByteArrayOutputStream();
+    int code = Cli.run(new String[] {"index", notAnArea.toString()}, printer(sink));
+    assertEquals(1, code);
+    assertTrue(sink.toString(StandardCharsets.UTF_8).contains("not an area"));
+    assertTrue(Files.notExists(notAnArea.resolve("MOC.md")));
+  }
+
+  @Test
   void cliValidateReportsErrors(@TempDir Path root) throws Exception {
     Path bad = root.resolve(".brain.yml");
     Files.writeString(bad, "schema_version: 1\n"); // missing area

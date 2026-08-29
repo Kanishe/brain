@@ -12,6 +12,8 @@ import java.util.Map;
 
 /** Command-line entry point: validate / index / recall / init. */
 public final class Cli {
+  private static final String MANIFEST_NAME = ".brain.yml";
+
   private Cli() {}
 
   public static int run(String[] argv, PrintStream out) throws IOException {
@@ -75,7 +77,14 @@ public final class Cli {
 
   private static int cmdIndex(String[] rest, PrintStream out) throws IOException {
     Args a = parse(rest);
-    Path target = Index.write(Path.of(a.positional().get(0)));
+    Path dir = Path.of(a.positional().get(0));
+    if (!Files.exists(dir.resolve(MANIFEST_NAME))) {
+      out.println("refusing: " + dir + " has no " + MANIFEST_NAME + " — not an area. "
+          + "brain index walks the whole subtree, so running it on a non-area directory "
+          + "(e.g. the brain root) can leak notes from other areas into one MOC.md.");
+      return 1;
+    }
+    Path target = Index.write(dir);
     out.println("wrote " + target);
     return 0;
   }
