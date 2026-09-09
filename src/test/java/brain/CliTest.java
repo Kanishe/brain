@@ -85,4 +85,33 @@ class CliTest {
     assertEquals(1, code);
     assertTrue(sink.toString(StandardCharsets.UTF_8).contains("area is required"));
   }
+
+  @Test
+  void cliValidateAcceptsNoteWithHorizontalRulesInBody(@TempDir Path root) throws Exception {
+    Path note = root.resolve("2026-09-09_roadmap.md");
+    Files.writeString(note,
+        "---\nschema_version: 1\ndate: 2026-09-09\nsummary: Road-map\n---\n\n"
+            + "# Title\n\n> TL;DR\n\n---\n\n## Section\n\ntext\n\n---\n\n## Another\n");
+    ByteArrayOutputStream sink = new ByteArrayOutputStream();
+    int code = Cli.run(new String[] {"validate", note.toString()}, printer(sink));
+    assertEquals(0, code, sink.toString(StandardCharsets.UTF_8));
+  }
+
+  @Test
+  void cliValidateReadsFrontmatterOnlyNotBody(@TempDir Path root) throws Exception {
+    Path note = root.resolve("2026-09-09_no-meta.md");
+    Files.writeString(note, "# No frontmatter\n\n---\n\nbody\n");
+    ByteArrayOutputStream sink = new ByteArrayOutputStream();
+    int code = Cli.run(new String[] {"validate", note.toString()}, printer(sink));
+    assertEquals(1, code);
+    assertTrue(sink.toString(StandardCharsets.UTF_8).contains("summary is required"));
+  }
+
+  @Test
+  void cliValidateRefusesDirectory(@TempDir Path root) throws Exception {
+    ByteArrayOutputStream sink = new ByteArrayOutputStream();
+    int code = Cli.run(new String[] {"validate", root.toString()}, printer(sink));
+    assertEquals(1, code);
+    assertTrue(sink.toString(StandardCharsets.UTF_8).contains("is a directory"));
+  }
 }

@@ -106,10 +106,18 @@ public final class Cli {
   private static int cmdValidate(String[] rest, PrintStream out) throws IOException {
     Args a = parse(rest);
     Path path = Path.of(a.positional().get(0));
-    Map<String, Object> data = Yamls.load(Files.readString(path));
-    List<String> errors = path.getFileName().toString().equals(".brain.yml")
-        ? Schema.validateManifest(data)
-        : Schema.validateNote(data);
+    if (Files.isDirectory(path)) {
+      out.println("refusing: " + path + " is a directory — validate takes one note (.md)"
+          + " or one .brain.yml manifest");
+      return 1;
+    }
+    boolean manifest = path.getFileName().toString().equals(MANIFEST_NAME);
+    // A manifest is YAML end to end; a note is Markdown whose frontmatter alone is YAML.
+    // Parsing a whole note as YAML breaks on every `---` horizontal rule in its body.
+    Map<String, Object> data =
+        manifest ? Yamls.load(Files.readString(path)) : Frontmatter.read(path).meta();
+    List<String> errors =
+        manifest ? Schema.validateManifest(data) : Schema.validateNote(data);
     for (String e : errors) {
       out.println(e);
     }
