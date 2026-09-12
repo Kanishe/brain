@@ -10,5 +10,17 @@
       },
       "autoUpdate": true
     }
+  },
+  "permissions": {
+    "allow": [
+      "Bash(brain init:*)",
+      "Bash(brain index:*)",
+      "Bash(brain recall:*)",
+      "Bash(brain validate:*)",
+      "Read(/brain/**)",
+      "Read(/opt/brain/**)",
+      "Edit(/brain/**)",
+      "Write(/brain/**)"
+    ]
   }
 }
