@@ -46,3 +46,14 @@ Never copy content from a more protected area into a less protected one
 ## Deterministic helpers
 Index rebuild, recall, validation, scaffolding and migration are done by the
 `brain` CLI (`brain index|recall|validate|init …`), never by hand. Trust the tools.
+
+## Working on this repo's own code
+This CLAUDE.md also applies when the working directory is this repo
+(`/work/brain`) — not just to the vault-agent persona above.
+
+- Big/multi-step features in this codebase need a work plan first (e.g. via
+  the `superpowers:writing-plans` skill).
+- Save that plan to `.claude/.plans/YYYY-MM-DD-<feature-name>.md` at this
+  repo's root — not the skill's default `docs/superpowers/plans/`, and never
+  inside `src/` or another app-source directory. `.claude/` is agent
+  tooling/working-docs space, kept out of the application itself.
