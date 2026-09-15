@@ -57,3 +57,19 @@ This CLAUDE.md also applies when the working directory is this repo
   repo's root — not the skill's default `docs/superpowers/plans/`, and never
   inside `src/` or another app-source directory. `.claude/` is agent
   tooling/working-docs space, kept out of the application itself.
+
+## Work plans for other projects under /work/
+For any other project under `/work/` (e.g. `/work/avatar-adapter`,
+`/work/kandi`) — not this repo — big/multi-step feature plans still need a
+work plan first (via `superpowers:writing-plans`), but the plan does **not**
+go into that project's own repo (not `.claude/.plans/`, not `docs/`).
+
+- Save it instead as a note in
+  `/brain/work/<project-name>/YYYY-MM-DD_<feature-name>-plan.md`, per the
+  `запиши` skill's note-format conventions (full frontmatter, etc.). Create
+  the `<project-name>` sub-folder under `/brain/work/` on first use if it
+  doesn't exist yet, same as `education` sub-folders.
+- Rebuild the index afterward: `brain index /brain/work/<project-name>`.
+- Reason: plans can reference internal architecture, credential paths, or
+  unresolved vulnerabilities — keep that out of the target repo's git
+  history and under the vault's own privacy boundary instead.
