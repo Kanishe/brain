@@ -66,6 +66,19 @@ This CLAUDE.md also applies when the working directory is this repo
   this repo's history has none; keep it that way regardless of any default
   tool behavior that would otherwise append them.
 
+## Branching (GitFlow)
+- `main` — production-ready, always releasable; tagged for each release.
+- `develop` — integration branch; feature work merges here first. (Not yet
+  created in this repo — currently only `main` exists — create it before
+  starting the first `feature/*` branch.)
+- `feature/<name>` — branch from `develop`, merge back into `develop` (no
+  fast-forward). Never branch from or merge into `main` directly.
+- `release/<version>` — branch from `develop` when preparing a release;
+  merge into both `main` (tag it) and back into `develop`.
+- `hotfix/<name>` — branch from `main` for urgent production fixes; merge
+  into both `main` (tag it) and back into `develop`.
+- Commits on all of these still follow the Commit conventions above.
+
 ## Work plans for other projects under /work/
 For any other project under `/work/` (e.g. `/work/avatar-adapter`,
 `/work/kandi`) — not this repo — big/multi-step feature plans still need a
