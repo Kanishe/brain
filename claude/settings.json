@@ -22,6 +22,9 @@
       "Read(/opt/brain/**)",
       "Edit(/brain/**)",
       "Write(/brain/**)"
+    ],
+    "additionalDirectories": [
+      "/work"
     ]
   }
 }
