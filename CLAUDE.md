@@ -79,6 +79,17 @@ This CLAUDE.md also applies when the working directory is this repo
   into both `main` (tag it) and back into `develop`.
 - Commits on all of these still follow the Commit conventions above.
 
+## Merge Request conventions
+Every MR/PR description — this repo and any project under `/work/` — must
+include three sections:
+
+- **What was done** — brief summary of the change.
+- **Affected endpoints** — which API endpoints/routes are touched (or "N/A"
+  if the change doesn't touch the API).
+- **Test plan** — a checklist of what to check and how, to confirm the diff
+  works correctly (concrete verification steps/scenarios, not just "tests
+  were run").
+
 ## Work plans for other projects under /work/
 For any other project under `/work/` (e.g. `/work/avatar-adapter`,
 `/work/kandi`) — not this repo — big/multi-step feature plans still need a
