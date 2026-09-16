@@ -16,8 +16,27 @@ ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends git ca-certificates \
+    && apt-get install -y --no-install-recommends git ca-certificates curl \
     && rm -rf /var/lib/apt/lists/*
+
+# gh (GitHub CLI) — official apt repo, arch picked up automatically via
+# dpkg --print-architecture (https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
+RUN mkdir -p -m 755 /etc/apt/keyrings \
+    && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg -o /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+    && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > /etc/apt/sources.list.d/github-cli.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends gh \
+    && rm -rf /var/lib/apt/lists/*
+
+# glab (GitLab CLI) — no apt repo published upstream, so fetch the release
+# .deb for the image's arch directly (asset names verified against the
+# gitlab-org/cli releases API: glab_<version>_linux_<arch>.deb)
+RUN GLAB_TAG=$(curl -fsSL https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/releases/permalink/latest | grep -oP '"tag_name":"\K[^"]+') \
+    && GLAB_VERSION="${GLAB_TAG#v}" \
+    && curl -fsSL "https://gitlab.com/gitlab-org/cli/-/releases/${GLAB_TAG}/downloads/glab_${GLAB_VERSION}_linux_$(dpkg --print-architecture).deb" -o /tmp/glab.deb \
+    && dpkg -i /tmp/glab.deb \
+    && rm /tmp/glab.deb
 
 RUN npm install -g @anthropic-ai/claude-code
 

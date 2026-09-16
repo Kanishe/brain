@@ -59,6 +59,9 @@ This CLAUDE.md also applies when the working directory is this repo
   tooling/working-docs space, kept out of the application itself.
 
 ## Commit conventions
+Applies to this repo and any git repo under `/work/` (same scope as Merge
+Request conventions below).
+
 - Use Conventional Commits: `<type>(<scope>): <summary>`, e.g. `feat:`, `fix:`,
   `chore:`, `docs:`. Append `!` after the type for a breaking change (e.g.
   `feat!:`).
@@ -81,10 +84,14 @@ sections to the MR conventions so reviewers get consistent context.
 ```
 
 ## Branching (GitFlow)
+Applies to this repo and any git repo under `/work/` (same scope as Merge
+Request conventions below).
+
 - `main` — production-ready, always releasable; tagged for each release.
-- `develop` — integration branch; feature work merges here first. (Not yet
-  created in this repo — currently only `main` exists — create it before
-  starting the first `feature/*` branch.)
+- `develop` — integration branch; feature work merges here first. If a repo
+  doesn't have a `develop` branch yet, create it before starting the first
+  `feature/*` branch there (check with `git branch` — don't assume from this
+  file, whose state goes stale).
 - `feature/<name>` — branch from `develop`, merge back into `develop` (no
   fast-forward). Never branch from or merge into `main` directly.
 - `release/<version>` — branch from `develop` when preparing a release;
@@ -103,6 +110,12 @@ include three sections:
 - **Test plan** — a checklist of what to check and how, to confirm the diff
   works correctly (concrete verification steps/scenarios, not just "tests
   were run").
+
+Tooling: use `gh` for GitHub-hosted repos, `glab` for GitLab-hosted repos —
+check the repo's remote (`git remote -v`) to decide which. Neither is
+guaranteed to be installed in this container; if missing, tell the user
+rather than trying to work around it, and let them install it or run the
+command themselves via `!`.
 
 ## Work plans for other projects under /work/
 For any other project under `/work/` (e.g. `/work/avatar-adapter`,
