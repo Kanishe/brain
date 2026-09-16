@@ -59,12 +59,26 @@ This CLAUDE.md also applies when the working directory is this repo
   tooling/working-docs space, kept out of the application itself.
 
 ## Commit conventions
-- Use Conventional Commits: `<type>: <summary>`, e.g. `feat:`, `fix:`, `chore:`,
-  `docs:`. Append `!` after the type for a breaking change (e.g. `feat!:`).
+- Use Conventional Commits: `<type>(<scope>): <summary>`, e.g. `feat:`, `fix:`,
+  `chore:`, `docs:`. Append `!` after the type for a breaking change (e.g.
+  `feat!:`).
+- `<scope>` is the feature id — usually the branch name (e.g. branch
+  `feature/BRAIN-42` → scope `BRAIN-42`). Omit it if there's no associated
+  feature/ticket.
 - Subject line in English, imperative mood, no trailing period.
+- Body (optional) — separated from the subject line by a blank line, with
+  further details.
 - No attribution trailers (no `Co-Authored-By`, no "Generated with" lines) —
   this repo's history has none; keep it that way regardless of any default
   tool behavior that would otherwise append them.
+
+Example:
+```
+feat(BRAIN-42): add merge request description checklist
+
+Adds required "What was done" / "Affected endpoints" / "Test plan"
+sections to the MR conventions so reviewers get consistent context.
+```
 
 ## Branching (GitFlow)
 - `main` — production-ready, always releasable; tagged for each release.
