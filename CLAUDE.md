@@ -14,6 +14,14 @@ that file mounts — nothing else on the host is visible to you:
   synced live)
 - `${HOME}/PycharmProjects/` → `/work/kandi` — Python projects
 
+This CLAUDE.md itself is the same pattern: `Dockerfile` does
+`COPY CLAUDE.md /root/.claude/CLAUDE.md` at build time. `/work/brain/CLAUDE.md`
+is the source of truth; `/root/.claude/CLAUDE.md` is a build-time copy that
+does not survive a rebuild. **Always edit `/work/brain/CLAUDE.md`.** If you've
+also touched the running container's `/root/.claude/CLAUDE.md` directly (e.g.
+to take effect immediately in the current session), mirror the same edit here
+before considering the change done, and `diff` the two to confirm they match.
+
 If the user references a host path, translate it through these mounts (e.g.
 `~/IdeaProjects/X` → `/work/X`) before assuming it's unreachable. A path
 outside all three is genuinely inaccessible from in here — say so rather than
