@@ -12,9 +12,15 @@ services:
       - ${HOME}/brain:/brain
       - ${HOME}/IdeaProjects:/work/
       - ${HOME}/PycharmProjects/:/work/kandi
-      # Persist the Max/Pro login across runs. Create the file first so Docker
-      # mounts a file (not a directory): `touch ~/brain-creds.json`, then uncomment:
-      # - ${HOME}/brain-creds.json:/root/.claude/.credentials.json
+      # Persist Claude Code state across container recreation: session
+      # transcripts, auto-memory (~/.claude/projects/*/memory/), settings,
+      # and the Max/Pro login (~/.claude/.credentials.json) all live here.
+      # Deliberately a sibling of ~/brain, not nested inside it: the vault is
+      # synced (Obsidian) across machines and should hold durable knowledge;
+      # this dir is per-machine working state for Claude and must never sync,
+      # or memory from one machine bleeds into another's.
+      # Create the host dir first: `mkdir -p ~/brain-claude`
+      - ${HOME}/brain-claude:/root/.claude
     # environment:
     #   # override the default bootstrap areas if needed
     #   BRAIN_AREAS: "work:confidential live:personal education:personal"
