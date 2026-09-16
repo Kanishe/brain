@@ -18,11 +18,19 @@ for pair in $BRAIN_AREAS; do
   fi
 done
 
-# report superpowers plugin status (non-fatal)
+# ensure superpowers plugin is present (build-time install can silently no-op
+# on network failure — see Dockerfile); retry here where runtime network is
+# more likely available (non-fatal either way)
 if claude plugin list 2>/dev/null | grep -q "superpowers@superpowers-marketplace"; then
   echo "plugin: superpowers enabled"
 else
-  echo "plugin: superpowers not detected — it will install on first use"
+  echo "plugin: superpowers not detected — installing now"
+  if claude plugin marketplace add obra/superpowers-marketplace \
+      && claude plugin install superpowers@superpowers-marketplace; then
+    echo "plugin: superpowers installed"
+  else
+    echo "plugin: superpowers install failed — continuing without it"
+  fi
 fi
 
 exec claude "$@"
