@@ -58,6 +58,14 @@ This CLAUDE.md also applies when the working directory is this repo
   inside `src/` or another app-source directory. `.claude/` is agent
   tooling/working-docs space, kept out of the application itself.
 
+## Commit conventions
+- Use Conventional Commits: `<type>: <summary>`, e.g. `feat:`, `fix:`, `chore:`,
+  `docs:`. Append `!` after the type for a breaking change (e.g. `feat!:`).
+- Subject line in English, imperative mood, no trailing period.
+- No attribution trailers (no `Co-Authored-By`, no "Generated with" lines) —
+  this repo's history has none; keep it that way regardless of any default
+  tool behavior that would otherwise append them.
+
 ## Work plans for other projects under /work/
 For any other project under `/work/` (e.g. `/work/avatar-adapter`,
 `/work/kandi`) — not this repo — big/multi-step feature plans still need a
