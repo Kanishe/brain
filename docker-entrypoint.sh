@@ -18,6 +18,18 @@ for pair in $BRAIN_AREAS; do
   fi
 done
 
+# sync CLAUDE.md and our skills into /root/.claude: the ~/brain-claude bind
+# mount hides what the Dockerfile copied there. Only our own skill dirs are
+# replaced; skills installed by other tools are left alone.
+mkdir -p /root/.claude/skills
+cp /opt/brain/claude/CLAUDE.md /root/.claude/CLAUDE.md
+for skill in /opt/brain/claude/skills/*/; do
+  name="$(basename "$skill")"
+  rm -rf "/root/.claude/skills/${name}"
+  cp -r "$skill" "/root/.claude/skills/${name}"
+done
+echo "synced CLAUDE.md and skills into /root/.claude"
+
 # ensure superpowers plugin is present (build-time install can silently no-op
 # on network failure — see Dockerfile); retry here where runtime network is
 # more likely available (non-fatal either way)

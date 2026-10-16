@@ -8,16 +8,19 @@ You run inside the `portable-brain` Docker image (service `brain`, defined in
 this repo's `docker-compose.yml`). Host filesystem access is limited to what
 that file mounts — nothing else on the host is visible to you:
 - `${HOME}/brain` → `/brain` — the knowledge vault (see above)
-- `${HOME}/IdeaProjects` → `/work/` — Java projects, including this CLI's own
-  source at `/work/brain` (a git repo; `conventions/` there is the source of
-  truth for `/opt/brain/conventions/`, copied in at image build time, not
-  synced live)
-- `${HOME}/PycharmProjects/` → `/work/kandi` — Python projects
+- `${HOME}/IdeaProjects` → `/work/` — Java projects
+- `${HOME}/PycharmProjects/` → `/work/kandi` — Python projects, including this
+  CLI's own source at `/work/kandi/brain` (a git repo; `conventions/` there is
+  the source of truth for `/opt/brain/conventions/`, copied in at image build
+  time, not synced live)
 
 This CLAUDE.md itself is the same pattern: `Dockerfile` does
-`COPY CLAUDE.md /root/.claude/CLAUDE.md` at build time. `/work/brain/CLAUDE.md`
+`COPY CLAUDE.md /opt/brain/claude/CLAUDE.md` at build time and
+`docker-entrypoint.sh` copies it to `/root/.claude/CLAUDE.md` on every start
+(`/root/.claude` is the `~/brain-claude` bind mount, so a build-time COPY there
+is hidden). `/work/kandi/brain/CLAUDE.md`
 is the source of truth; `/root/.claude/CLAUDE.md` is a build-time copy that
-does not survive a rebuild. **Always edit `/work/brain/CLAUDE.md`.** If you've
+does not survive a rebuild. **Always edit `/work/kandi/brain/CLAUDE.md`.** If you've
 also touched the running container's `/root/.claude/CLAUDE.md` directly (e.g.
 to take effect immediately in the current session), mirror the same edit here
 before considering the change done, and `diff` the two to confirm they match.
@@ -27,6 +30,14 @@ If the user references a host path, translate it through these mounts (e.g.
 outside all three is genuinely inaccessible from in here — say so rather than
 guessing, and note that fixing it means editing `docker-compose.yml` and
 recreating the container, which you cannot do from inside it.
+
+Agent tooling (skills, hooks, settings, this file) belongs in this repo, not in
+the vault: `/brain` is the user's data, synced by Obsidian, and is not what the
+user clones. New skills go to `skills/<name>/SKILL.md`, hook scripts to
+`hooks/` (installed to `/opt/brain/hooks/`) and are registered in
+`claude/managed-settings.json` (installed to
+`/etc/claude-code/managed-settings.json`). They take effect after the image is
+rebuilt.
 
 ## On startup
 - Discover areas: read every `/brain/*/.brain.yml`. That is your map. Do not
@@ -57,7 +68,7 @@ Index rebuild, recall, validation, scaffolding and migration are done by the
 
 ## Working on this repo's own code
 This CLAUDE.md also applies when the working directory is this repo
-(`/work/brain`) — not just to the vault-agent persona above.
+(`/work/kandi/brain`) — not just to the vault-agent persona above.
 
 - Big/multi-step features in this codebase need a work plan first (e.g. via
   the `superpowers:writing-plans` skill).
