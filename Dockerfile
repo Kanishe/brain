@@ -51,6 +51,15 @@ COPY conventions/ /opt/brain/conventions/
 COPY templates/ /opt/brain/templates/
 COPY CLAUDE.md /root/.claude/CLAUDE.md
 COPY skills/ /root/.claude/skills/
+# docker-compose bind-mounts ~/brain-claude over /root/.claude, which hides the
+# two COPYs above at runtime. Keep a staged copy outside the mount;
+# docker-entrypoint.sh syncs it into /root/.claude on every start.
+COPY CLAUDE.md /opt/brain/claude/CLAUDE.md
+COPY skills/ /opt/brain/claude/skills/
+# hooks: managed settings live in /etc, outside the mount, and merge with the
+# user's own settings.json
+COPY hooks/ /opt/brain/hooks/
+COPY claude/managed-settings.json /etc/claude-code/managed-settings.json
 
 # third-party skills via the `skills` CLI (npx skills, vercel-labs/skills):
 # one owner/repo per line in npx-skills.txt (comments/blank lines ignored).
