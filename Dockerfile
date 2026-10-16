@@ -7,7 +7,8 @@ COPY templates ./templates
 RUN mvn -B -q -DskipTests package
 
 # --- runtime stage: Node (for Claude Code) + JRE (for the brain CLI) ---
-FROM node:20-slim
+# node 22: skills@latest needs >=22.20 (fs/promises glob)
+FROM node:22-slim
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 # graft a JRE 21 from the Temurin image (the agent is Node; the tools are Java)
@@ -63,16 +64,19 @@ COPY claude/managed-settings.json /etc/claude-code/managed-settings.json
 
 # third-party skills via the `skills` CLI (npx skills, vercel-labs/skills):
 # one owner/repo per line in npx-skills.txt (comments/blank lines ignored).
-# `-g` installs onto the same ~/.claude/skills discovery path as our own
-# skills above; @latest avoids older CLI versions that skip the ~/.claude
-# symlink. Empty file today = mechanism ready, nothing installed yet.
+# `-g` installs into $HOME/.claude/skills; @latest avoids older CLI versions
+# that skip the ~/.claude symlink. HOME points at a scratch dir so the result
+# can be copied (symlinks resolved) into /opt/brain/claude/skills, which
+# docker-entrypoint.sh syncs past the ~/brain-claude mount.
 COPY npx-skills.txt /tmp/npx-skills.txt
 RUN set -e; \
+    export HOME=/tmp/npx-home; mkdir -p "$HOME/.claude/skills"; \
     while IFS= read -r skill; do \
       case "$skill" in ''|'#'*) continue ;; esac; \
       npx --yes skills@latest add "$skill" -a claude-code -g -y; \
     done < /tmp/npx-skills.txt; \
-    rm /tmp/npx-skills.txt
+    cp -rL "$HOME/.claude/skills/." /opt/brain/claude/skills/; \
+    rm -rf /tmp/npx-skills.txt "$HOME" /root/.npm/_npx
 
 # The image has no SSH client/keys, but the github plugin source resolves to
 # git@github.com and fails with "ssh: not found". Force HTTPS for GitHub clones
