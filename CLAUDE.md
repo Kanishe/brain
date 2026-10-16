@@ -92,7 +92,17 @@ Request conventions below).
   further details.
 - No attribution trailers (no `Co-Authored-By`, no "Generated with" lines) —
   this repo's history has none; keep it that way regardless of any default
-  tool behavior that would otherwise append them.
+  tool behavior that would otherwise append them. Do not mention Claude or AI
+  assistance in commit messages at all.
+- Never commit without the user's explicit OK: show the change and the
+  proposed message first, then wait. Before committing, check the current
+  branch (`git branch --show-current`); it must be the intended
+  `feature/*`/`release/*`/`hotfix/*` branch, not `main` or `develop`.
+- Author identity: match the repo's existing history
+  (`git log -5 --format='%an <%ae>'`). Work-hosted repos use the user's work
+  identity, personal ones their personal identity. If `user.email` is unset in
+  the container, pass it per commit (`git -c user.name=... -c user.email=...
+  commit`) instead of changing global config.
 
 Example:
 ```
@@ -113,6 +123,15 @@ Request conventions below).
   file, whose state goes stale).
 - `feature/<name>` — branch from `develop`, merge back into `develop` (no
   fast-forward). Never branch from or merge into `main` directly.
+- In repos tied to a Jira project (existing work projects), create the Jira
+  task first and name the branch after it: `feature/<KEY>-<n>` (e.g.
+  `feature/KPROD-522`), so the commit scope comes from the branch name. The
+  project's key is in `/brain/work/<work>/<project>/project.md`
+  (`jira_project`).
+- Create branches without upstream tracking: `git switch --no-track -c
+  <branch> <start>`. Otherwise a branch started from `origin/main` gets `main`
+  as its upstream, and a plain push (e.g. from PyCharm) goes straight into
+  `main`. Set the upstream on first push: `git push -u origin <branch>`.
 - `release/<version>` — branch from `develop` when preparing a release;
   merge into both `main` (tag it) and back into `develop`.
 - `hotfix/<name>` — branch from `main` for urgent production fixes; merge
