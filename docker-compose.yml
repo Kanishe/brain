@@ -21,7 +21,12 @@ services:
       # or memory from one machine bleeds into another's.
       # Create the host dir first: `mkdir -p ~/brain-claude`
       - ${HOME}/brain-claude:/root/.claude
-    # environment:
+    environment:
+      # Claude Code keeps its global config (MCP servers, project trust,
+      # onboarding) in ~/.claude.json, a sibling of ~/.claude and so outside
+      # the mount above: it was reset on every container recreation. With
+      # CLAUDE_CONFIG_DIR it lives at /root/.claude/.claude.json, inside it.
+      CLAUDE_CONFIG_DIR: /root/.claude
     #   # override the default bootstrap areas if needed
     #   BRAIN_AREAS: "work:confidential live:personal education:personal"
     #   # headless auth instead of interactive /login (subscription token, not an API key)
