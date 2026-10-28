@@ -18,8 +18,10 @@ ENV PATH="$JAVA_HOME/bin:$PATH"
 
 # python3 + aiohttp: run Python unit tests of /work projects (e.g. avatar-5-0-worker-api)
 # from inside the container; GitHub-hosted Python builds (uv) are unreachable here.
+# openssh-client + rsync: run GPU jobs on remote hosts (ssh aliases from the mounted
+# ~/.ssh, see docker-compose.yml) and sync project files / fetch results.
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends git ca-certificates curl python3 python3-aiohttp \
+    && apt-get install -y --no-install-recommends git ca-certificates curl python3 python3-aiohttp openssh-client rsync \
     && rm -rf /var/lib/apt/lists/*
 
 # gh (GitHub CLI) — official apt repo, arch picked up automatically via
