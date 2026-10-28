@@ -12,6 +12,11 @@ services:
       - ${HOME}/brain:/brain
       - ${HOME}/IdeaProjects:/work/
       - ${HOME}/PycharmProjects/:/work/kandi
+      # SSH keys + config (host aliases like post-train-8-k6) for ssh/rsync to
+      # GPU machines. Read-only: the container never writes to the host's ~/.ssh.
+      # A macOS-only option (e.g. `UseKeychain yes`) breaks Linux ssh unless the
+      # config starts with `IgnoreUnknown UseKeychain`.
+      - ${HOME}/.ssh:/root/.ssh:ro
       # Persist Claude Code state across container recreation: session
       # transcripts, auto-memory (~/.claude/projects/*/memory/), settings,
       # and the Max/Pro login (~/.claude/.credentials.json) all live here.
